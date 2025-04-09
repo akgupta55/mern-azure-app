@@ -2,8 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const path = require("path");
 const port = process.env.PORT || 3001;
+const path = require("path");
 
 const app = express();
 
@@ -19,12 +19,6 @@ mongoose
 const userSchema = mongoose.Schema({
   name: String,
   lastName: String,
-});
-
-// production script
-app.use(express.static("./client/build"));
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 });
 
 //db model
@@ -47,6 +41,12 @@ app.post("/create", (req, res) => {
     .save()
     .then((user) => res.json(user))
     .catch((err) => console.log(err));
+});
+
+// production script
+app.use(express.static("./client/build"));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 });
 
 app.listen(port, () => {
